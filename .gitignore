@@ -1,5 +1,6 @@
 /.idea/
 /.venv/
 /data/
-*/__pycache__/
-spam_classifier/data/__pycache__/
+*__pycache__/
+
+*.pkl
