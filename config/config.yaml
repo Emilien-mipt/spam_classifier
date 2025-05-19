@@ -1,5 +1,0 @@
-data:
-  raw_data_path: "data/raw/spam.csv"
-  processed_path: "data/processed/"
-  test_size: 0.2
-  random_state: 42
