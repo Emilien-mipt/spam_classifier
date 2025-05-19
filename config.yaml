@@ -1,0 +1,15 @@
+data:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  model_type: "logistic_regression"
+  model_name: "spam_classifier.pkl"
+  vectorizer_path: "models/vectorizer.pkl"
+  params:
+    C: 1.0
+    max_iter: 1000
+
+training:
+  save_model: True
+  test_mode: False

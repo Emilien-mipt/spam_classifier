@@ -15,5 +15,8 @@ endif
 	rm data/raw/spam.zip
 
 process_data:
-	python -m spam_classifier.data.make_dataset config/config.yaml
+	python -m spam_classifier.data.make_dataset config.yaml
+
+train:
+	python -m spam_classifier.train_model config.yaml
 
