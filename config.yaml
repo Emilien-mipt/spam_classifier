@@ -15,9 +15,7 @@ training:
   run_validation: True
   use_holdout: False
   metrics:
-    - accuracy
-    - precision
     - recall
-    - f1
+    - roc_auc
   log_to_file: True
   cv_folds: 5

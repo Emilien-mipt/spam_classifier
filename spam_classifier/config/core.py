@@ -28,7 +28,7 @@ class TrainingConfig(BaseModel):
     save_model: bool
     run_validation: bool = True
     use_holdout: bool = False
-    metrics: List[str] = ["accuracy", "precision", "recall", "f1"]
+    metrics: List[str] = ["accuracy", "precision", "recall", "f1", "roc_auc"]
     log_to_file: bool = True
     cv_folds: int = 5
 
