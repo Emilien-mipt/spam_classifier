@@ -22,7 +22,7 @@ def train_model(config_path):
     model = define_pipeline(config)
 
     # Обучение модели
-    model.fit(train_data['processed_text'], train_data['label'])
+    model.fit(train_data['text'], train_data['label'])
 
     # Сохранение модели
     if config.training.save_model:
