@@ -1,17 +1,19 @@
 import sys
+from pathlib import Path
 
 import pandas as pd
-import yaml
 from sklearn.model_selection import train_test_split
 
 from spam_classifier.config.paths import (CONFIG_FILE_PATH,
                                           PROCESSED_DATA_PATH, RAW_DATA_PATH)
+from spam_classifier.config.core import (create_and_validate_config,
+                                         fetch_config_from_yaml)
 from spam_classifier.data.preprocess import preprocess_text
 
 
 def load_data(config_path):
-    with open(config_path, 'r') as f:
-        config = yaml.safe_load(f)
+    parsed_config = fetch_config_from_yaml(Path(config_path))
+    config = create_and_validate_config(parsed_config)
 
     data = pd.read_csv(RAW_DATA_PATH, encoding='iso-8859-1')
     data = data[['v1', 'v2']].rename(columns={'v1': 'label', 'v2': 'text'})
@@ -25,8 +27,8 @@ def load_data(config_path):
     # Разделение данных
     train, test = train_test_split(
         data,
-        test_size=config['data']['test_size'],
-        random_state=config['data']['random_state']
+        test_size=config.data.test_size,
+        random_state=config.data.random_state
     )
 
     # Сохранение данных
