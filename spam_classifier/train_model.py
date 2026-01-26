@@ -1,6 +1,5 @@
 import logging
 import sys
-from datetime import datetime
 from pathlib import Path
 
 import joblib
@@ -14,11 +13,12 @@ from spam_classifier.config.paths import (CONFIG_FILE_PATH,
                                           LOG_DIR,
                                           TRAINED_MODEL_DIR)
 from spam_classifier.config.core import (create_and_validate_config,
-                                         fetch_config_from_yaml)
+                                         fetch_config_from_yaml,
+                                         read_package_version)
 from spam_classifier.pipeline import define_pipeline
 
 
-def setup_logger(log_to_file: bool) -> logging.Logger:
+def setup_logger(log_to_file: bool, version: str) -> logging.Logger:
     logger = logging.getLogger("spam_classifier.training")
     if logger.handlers:
         return logger
@@ -34,7 +34,7 @@ def setup_logger(log_to_file: bool) -> logging.Logger:
 
     if log_to_file:
         LOG_DIR.mkdir(parents=True, exist_ok=True)
-        log_name = f"training_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_name = f"logs_{version}.log"
         file_handler = logging.FileHandler(LOG_DIR / log_name)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
@@ -79,7 +79,8 @@ def log_cv_results(logger, cv_results):
 def train_model(config_path):
     parsed_config = fetch_config_from_yaml(Path(config_path))
     config = create_and_validate_config(parsed_config)
-    logger = setup_logger(config.training.log_to_file)
+    version = read_package_version()
+    logger = setup_logger(config.training.log_to_file, version)
 
     # Загрузка данных
     train_data = pd.read_csv(PROCESSED_DATA_PATH.joinpath('train.csv'))
@@ -136,7 +137,7 @@ def train_model(config_path):
     # Сохранение модели
     if config.training.save_model:
         TRAINED_MODEL_DIR.mkdir(parents=True, exist_ok=True)
-        path_to_model = TRAINED_MODEL_DIR.joinpath(config.model.model_name)
+        path_to_model = TRAINED_MODEL_DIR.joinpath(f"spam_classifier_v{version}.pkl")
         joblib.dump(model, path_to_model)
         logger.info("Model saved to %s", path_to_model)
 

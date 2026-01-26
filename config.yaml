@@ -12,7 +12,7 @@ model:
 
 training:
   save_model: True
-  run_validation: False
+  run_validation: True
   use_holdout: False
   metrics:
     - accuracy

@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel
 from yaml import safe_load
 
-from spam_classifier.config.paths import CONFIG_FILE_PATH
+from spam_classifier.config.paths import CONFIG_FILE_PATH, VERSION_FILE_PATH
 
 
 class DataConfig(BaseModel):
@@ -27,7 +27,7 @@ class ModelConfig(BaseModel):
 class TrainingConfig(BaseModel):
     save_model: bool
     run_validation: bool = True
-    use_holdout: bool = True
+    use_holdout: bool = False
     metrics: List[str] = ["accuracy", "precision", "recall", "f1"]
     log_to_file: bool = True
     cv_folds: int = 5
@@ -69,3 +69,11 @@ def create_and_validate_config(parsed_config: Optional[Dict[str, Any]] = None) -
     )
 
     return _config
+
+
+def read_package_version() -> str:
+    if VERSION_FILE_PATH.is_file():
+        version = VERSION_FILE_PATH.read_text(encoding="utf-8").strip()
+        if version:
+            return version
+    raise FileNotFoundError(f"Version file not found or empty at {VERSION_FILE_PATH!r}")
