@@ -1,5 +1,5 @@
 data:
-  test_size: 0.2
+  test_size: 0.1
   random_state: 42
 
 model:
@@ -12,11 +12,12 @@ model:
 
 training:
   save_model: True
-  test_mode: False
-  validate: True
+  run_validation: False
+  use_holdout: False
   metrics:
     - accuracy
     - precision
     - recall
     - f1
   log_to_file: True
+  cv_folds: 5

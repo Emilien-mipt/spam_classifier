@@ -26,10 +26,11 @@ class ModelConfig(BaseModel):
 
 class TrainingConfig(BaseModel):
     save_model: bool
-    test_mode: bool
-    validate: bool = True
+    run_validation: bool = True
+    use_holdout: bool = True
     metrics: List[str] = ["accuracy", "precision", "recall", "f1"]
     log_to_file: bool = True
+    cv_folds: int = 5
 
 
 class Config(BaseModel):

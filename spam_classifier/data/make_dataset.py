@@ -25,16 +25,25 @@ def load_data(config_path):
     data['processed_text'] = data['text'].apply(preprocess_text)
 
     # Разделение данных
-    train, test = train_test_split(
-        data,
-        test_size=config.data.test_size,
-        random_state=config.data.random_state
-    )
+    if config.training.use_holdout:
+        train, test = train_test_split(
+            data,
+            test_size=config.data.test_size,
+            random_state=config.data.random_state,
+            stratify=data['label'],
+        )
+    else:
+        train = data
+        test = None
 
     # Сохранение данных
     PROCESSED_DATA_PATH.mkdir(parents=True, exist_ok=True)
     train.to_csv(PROCESSED_DATA_PATH.joinpath('train.csv'), index=False)
-    test.to_csv(PROCESSED_DATA_PATH.joinpath('test.csv'), index=False)
+    test_path = PROCESSED_DATA_PATH.joinpath('test.csv')
+    if test is not None:
+        test.to_csv(test_path, index=False)
+    elif test_path.is_file():
+        test_path.unlink()
 
     return train, test
 
