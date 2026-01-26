@@ -1,0 +1,15 @@
+2026-01-27 02:16:05,372 | INFO | Train data loaded: 5169 rows
+2026-01-27 02:16:05,861 | INFO | cv.fold_1.recall=0.7923
+2026-01-27 02:16:05,861 | INFO | cv.fold_2.recall=0.8244
+2026-01-27 02:16:05,861 | INFO | cv.fold_3.recall=0.8473
+2026-01-27 02:16:05,861 | INFO | cv.fold_4.recall=0.8168
+2026-01-27 02:16:05,861 | INFO | cv.fold_5.recall=0.8308
+2026-01-27 02:16:05,861 | INFO | cv.recall_mean=0.8223 cv.recall_std=0.0181
+2026-01-27 02:16:05,861 | INFO | cv.fold_1.roc_auc=0.9839
+2026-01-27 02:16:05,861 | INFO | cv.fold_2.roc_auc=0.9983
+2026-01-27 02:16:05,861 | INFO | cv.fold_3.roc_auc=0.9895
+2026-01-27 02:16:05,861 | INFO | cv.fold_4.roc_auc=0.9939
+2026-01-27 02:16:05,861 | INFO | cv.fold_5.roc_auc=0.9928
+2026-01-27 02:16:05,861 | INFO | cv.roc_auc_mean=0.9917 cv.roc_auc_std=0.0048
+2026-01-27 02:16:05,946 | INFO | Training completed
+2026-01-27 02:16:05,956 | INFO | Model saved to /Users/emin/Documents/Преподавание/Курсы/Курс по MLOps/Проекты/spam_classifier/spam_classifier/models/spam_classifier_v0.1.0.pkl
