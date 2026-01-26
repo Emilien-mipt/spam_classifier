@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 from yaml import safe_load
@@ -27,6 +27,9 @@ class ModelConfig(BaseModel):
 class TrainingConfig(BaseModel):
     save_model: bool
     test_mode: bool
+    validate: bool = True
+    metrics: List[str] = ["accuracy", "precision", "recall", "f1"]
+    log_to_file: bool = True
 
 
 class Config(BaseModel):

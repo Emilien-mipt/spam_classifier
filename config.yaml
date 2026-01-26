@@ -13,3 +13,10 @@ model:
 training:
   save_model: True
   test_mode: False
+  validate: True
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1
+  log_to_file: True
