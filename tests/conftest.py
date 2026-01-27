@@ -1,0 +1,101 @@
+import sys
+from pathlib import Path
+
+import pandas as pd
+import pytest
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+
+@pytest.fixture()
+def test_dataset():
+    texts = [
+        "free prize winner claim now",
+        "urgent win cash now",
+        "claim your free ticket",
+        "win money cash prize",
+        "free entry win prize",
+        "urgent offer claim prize",
+        "win free cash",
+        "free cash prize claim",
+        "urgent win prize now",
+        "call now to claim your prize",
+        "exclusive offer win money",
+        "urgent! you have won a prize",
+        "get cash bonus now",
+        "limited time offer claim",
+        "congratulations you won free ticket",
+        "claim your reward today",
+        "winner! claim cash reward",
+        "urgent response needed to claim prize",
+        "free entry to win cash",
+        "win big cash today",
+        "win $1000 cash now",
+        "visit http://spam.com to claim prize",
+        "call +1 555 123 4567 to win",
+        "send email to win@spam.com for reward",
+        "free bonus offer!!! claim now",
+        "congrats! you are selected to win",
+        "urgent: claim your prize now",
+        "exclusive deal just for you",
+        "limited offer win a free trip",
+        "claim your cash voucher today",
+        "hello how are you",
+        "let us meet tomorrow",
+        "see you at the meeting",
+        "are you coming home",
+        "thanks for your help",
+        "meeting schedule updated",
+        "please call me later",
+        "your invoice is attached",
+        "are we still on today",
+        "lunch at noon?",
+        "see you soon",
+        "can we reschedule our call",
+        "happy birthday have a great day",
+        "just checking in",
+        "did you finish the report",
+        "please review the document",
+        "see you at 5 pm",
+        "thanks for the update",
+        "let me know when you arrive",
+        "meeting moved to friday",
+        "your order has been shipped",
+        "let's catch up this weekend",
+        "project deadline is next week",
+        "please find the notes attached",
+        "are you free for a quick call",
+        "see you at the office at 10",
+        "thank you for your purchase",
+        "could you send the file",
+        "let me know your availability",
+        "see you tomorrow morning",
+    ]
+    labels = [
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+    ]
+    return pd.DataFrame({"text": texts, "label": labels})
+
+
+@pytest.fixture()
+def raw_dataset(test_dataset):
+    label_map = {0: "ham", 1: "spam"}
+    return pd.DataFrame(
+        {
+            "v1": [label_map[v] for v in test_dataset["label"]],
+            "v2": test_dataset["text"],
+        }
+    )
