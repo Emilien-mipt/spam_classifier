@@ -20,3 +20,5 @@ process_data:
 train:
 	python -m spam_classifier.train_model config.yaml
 
+quality:
+	pytest -m quality
