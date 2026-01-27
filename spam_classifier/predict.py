@@ -1,3 +1,5 @@
+import argparse
+import csv
 import sys
 from pathlib import Path
 from typing import Iterable, Optional
@@ -6,7 +8,7 @@ import joblib
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from spam_classifier.config.core import read_package_version
-from spam_classifier.config.paths import TRAINED_MODEL_DIR
+from spam_classifier.config.paths import ROOT, TRAINED_MODEL_DIR
 
 
 class PredictionInput(BaseModel):
@@ -55,23 +57,49 @@ def predict_messages(messages: Iterable[str], model) -> list[PredictionOutput]:
 
 
 def main() -> int:
-    if len(sys.argv) < 2:
-        print("Usage: python -m spam_classifier.predict \"your message\"")
-        return 2
+    parser = argparse.ArgumentParser(description="Spam classifier inference")
+    parser.add_argument("input", help="Message text or path to a file with messages")
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Output file path for batch predictions (CSV). Defaults to project root.",
+    )
+    parser.add_argument(
+        "--no-message",
+        action="store_true",
+        help="Do not include the message text in the output CSV.",
+    )
+    args = parser.parse_args()
 
     model = load_model()
-    arg = sys.argv[1]
+    arg = args.input
     path = Path(arg)
     try:
         if path.is_file():
             lines = path.read_text(encoding="utf-8").splitlines()
-            messages = [line for line in lines if line.strip()]
-            outputs = predict_messages(messages, model)
-            for idx, output in enumerate(outputs, start=1):
-                if output.score is not None:
-                    print(f"line={idx} label={output.label} score={output.score:.4f}")
+            records = [(idx + 1, line) for idx, line in enumerate(lines) if line.strip()]
+            outputs = predict_messages((text for _, text in records), model)
+
+            if args.output:
+                output_path = Path(args.output)
+            else:
+                output_name = f"{path.stem}.pred.csv"
+                output_path = ROOT / output_name
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            with output_path.open("w", encoding="utf-8", newline="") as f:
+                writer = csv.writer(f)
+                if args.no_message:
+                    writer.writerow(["line", "label", "score"])
                 else:
-                    print(f"line={idx} label={output.label}")
+                    writer.writerow(["line", "message", "label", "score"])
+                for (line_no, message), output in zip(records, outputs):
+                    score = f"{output.score:.6f}" if output.score is not None else ""
+                    if args.no_message:
+                        writer.writerow([line_no, output.label, score])
+                    else:
+                        writer.writerow([line_no, message, output.label, score])
+
+            print(f"Saved predictions to {output_path}")
             return 0
         output = predict_message(arg, model)
     except (ValidationError, FileNotFoundError, ValueError) as exc:
