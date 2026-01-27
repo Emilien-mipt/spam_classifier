@@ -11,6 +11,8 @@ from spam_classifier.data.preprocess import preprocess_text
 def preprocess_series(texts):
     if isinstance(texts, pd.Series):
         return texts.apply(preprocess_text)
+    if isinstance(texts, str):
+        return pd.Series([texts]).apply(preprocess_text)
     return pd.Series(list(texts)).apply(preprocess_text)
 
 
