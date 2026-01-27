@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
@@ -8,7 +9,9 @@ from spam_classifier.data.preprocess import preprocess_text
 
 
 def preprocess_series(texts):
-    return texts.apply(preprocess_text)
+    if isinstance(texts, pd.Series):
+        return texts.apply(preprocess_text)
+    return pd.Series(list(texts)).apply(preprocess_text)
 
 
 # Создание пайплайна
