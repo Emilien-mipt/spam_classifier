@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Optional, Tuple, Union
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -9,7 +10,7 @@ from spam_classifier.config.paths import CONFIG_FILE_PATH, PROCESSED_DATA_PATH, 
 from spam_classifier.data.preprocess import preprocess_text
 
 
-def load_data(config_path):
+def load_data(config_path: Union[str, Path]) -> Tuple[pd.DataFrame, Optional[pd.DataFrame]]:
     parsed_config = fetch_config_from_yaml(Path(config_path))
     config = create_and_validate_config(parsed_config)
 

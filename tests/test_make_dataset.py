@@ -1,5 +1,9 @@
 """Tests for dataset preparation and holdout handling."""
 
+from pathlib import Path
+
+import pandas as pd
+import pytest
 import yaml
 
 import spam_classifier.data.make_dataset as make_dataset_mod
@@ -7,7 +11,7 @@ from spam_classifier.config import paths as paths_mod
 from spam_classifier.data.make_dataset import load_data
 
 
-def write_config(path, use_holdout):
+def write_config(path: Path, use_holdout: bool) -> None:
     config = {
         "data": {"test_size": 0.5, "random_state": 42},
         "model": {
@@ -30,7 +34,11 @@ def write_config(path, use_holdout):
         yaml.safe_dump(config, f)
 
 
-def test_make_dataset_holdout(tmp_path, monkeypatch, raw_dataset):
+def test_make_dataset_holdout(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    raw_dataset: pd.DataFrame,
+) -> None:
     """Create train/test splits when holdout is enabled."""
     raw_path = tmp_path / "raw.csv"
     processed_dir = tmp_path / "processed"
@@ -50,7 +58,11 @@ def test_make_dataset_holdout(tmp_path, monkeypatch, raw_dataset):
     assert len(train) + len(test) == len(raw_dataset)
 
 
-def test_make_dataset_no_holdout(tmp_path, monkeypatch, raw_dataset):
+def test_make_dataset_no_holdout(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    raw_dataset: pd.DataFrame,
+) -> None:
     """Create train-only dataset and remove test.csv when holdout is disabled."""
     raw_path = tmp_path / "raw.csv"
     processed_dir = tmp_path / "processed"

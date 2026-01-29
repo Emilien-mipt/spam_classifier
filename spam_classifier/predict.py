@@ -1,7 +1,7 @@
 import argparse
 import csv
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Any, Iterable, Optional
 
 import joblib
 from pydantic import BaseModel, Field, ValidationError, field_validator
@@ -26,7 +26,7 @@ class PredictionOutput(BaseModel):
     score: Optional[float] = None
 
 
-def load_model():
+def load_model() -> Any:
     version = read_package_version()
     model_path = TRAINED_MODEL_DIR / f"spam_classifier_v{version}.pkl"
     if not model_path.is_file():
@@ -34,7 +34,7 @@ def load_model():
     return joblib.load(model_path)
 
 
-def predict_message(message: str, model) -> PredictionOutput:
+def predict_message(message: str, model: Any) -> PredictionOutput:
     validated = PredictionInput(message=message)
     pred = model.predict([validated.message])[0]
     label = "spam" if pred == 1 else "ham"
@@ -46,7 +46,7 @@ def predict_message(message: str, model) -> PredictionOutput:
     return PredictionOutput(label=label, score=score)
 
 
-def predict_messages(messages: Iterable[str], model) -> list[PredictionOutput]:
+def predict_messages(messages: Iterable[str], model: Any) -> list[PredictionOutput]:
     outputs: list[PredictionOutput] = []
     for message in messages:
         outputs.append(predict_message(message, model))

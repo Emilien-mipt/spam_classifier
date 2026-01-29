@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from typing import Union
 
 import joblib
 import pandas as pd
@@ -12,7 +13,7 @@ from spam_classifier.pipeline import define_pipeline
 from spam_classifier.utils import compute_metrics, get_cv_scoring, log_cv_results, setup_logger
 
 
-def train_model(config_path):
+def train_model(config_path: Union[str, Path]) -> object:
     parsed_config = fetch_config_from_yaml(Path(config_path))
     config = create_and_validate_config(parsed_config)
     version = read_package_version()

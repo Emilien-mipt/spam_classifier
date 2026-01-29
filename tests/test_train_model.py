@@ -1,6 +1,9 @@
 """Integration tests for training, saving artifacts, and logging."""
 
+from pathlib import Path
+
 import pandas as pd
+import pytest
 import yaml
 
 import spam_classifier.config.core as core_mod
@@ -9,7 +12,7 @@ import spam_classifier.utils as utils_mod
 from spam_classifier.train_model import train_model
 
 
-def write_config(path):
+def write_config(path: Path) -> None:
     config = {
         "data": {"test_size": 0.1, "random_state": 42},
         "model": {
@@ -32,7 +35,10 @@ def write_config(path):
         yaml.safe_dump(config, f)
 
 
-def test_train_model_saves_model_and_log(tmp_path, monkeypatch):
+def test_train_model_saves_model_and_log(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Train a tiny model and verify model/log artifacts are created."""
     processed_dir = tmp_path / "processed"
     models_dir = tmp_path / "models"
