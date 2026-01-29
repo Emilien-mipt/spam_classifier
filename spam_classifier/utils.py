@@ -1,5 +1,6 @@
 import logging
-from typing import Dict, Iterable
+from statistics import mean, pstdev
+from typing import Dict, Iterable, Sequence
 
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
 
@@ -52,13 +53,13 @@ def get_cv_scoring(metrics: Iterable[str]) -> Dict[str, str]:
     return scoring
 
 
-def log_cv_results(logger: logging.Logger, cv_results: Dict[str, Iterable[float]]) -> None:
+def log_cv_results(logger: logging.Logger, cv_results: Dict[str, Sequence[float]]) -> None:
     for key, values in cv_results.items():
         if not key.startswith("test_"):
             continue
         name = key.replace("test_", "")
         for idx, value in enumerate(values, start=1):
             logger.info("cv.fold_%d.%s=%.4f", idx, name, value)
-        mean_val = values.mean()
-        std_val = values.std()
+        mean_val = mean(values)
+        std_val = pstdev(values)
         logger.info("cv.%s_mean=%.4f cv.%s_std=%.4f", name, mean_val, name, std_val)
