@@ -39,9 +39,7 @@ def test_train_model_saves_model_and_log(tmp_path, monkeypatch):
     logs_dir = tmp_path / "logs"
     processed_dir.mkdir()
 
-    train_df = pd.DataFrame(
-        {"text": ["free prize", "hello friend"], "label": [1, 0]}
-    )
+    train_df = pd.DataFrame({"text": ["free prize", "hello friend"], "label": [1, 0]})
     train_df.to_csv(processed_dir / "train.csv", index=False)
 
     cfg_path = tmp_path / "config.yaml"

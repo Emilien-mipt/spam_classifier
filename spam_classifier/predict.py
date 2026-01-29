@@ -1,6 +1,5 @@
 import argparse
 import csv
-import sys
 from pathlib import Path
 from typing import Iterable, Optional
 
@@ -31,9 +30,7 @@ def load_model():
     version = read_package_version()
     model_path = TRAINED_MODEL_DIR / f"spam_classifier_v{version}.pkl"
     if not model_path.is_file():
-        raise FileNotFoundError(
-            f"Trained model not found at {model_path!s}. Train the model first."
-        )
+        raise FileNotFoundError(f"Trained model not found at {model_path!s}. Train the model first.")
     return joblib.load(model_path)
 
 

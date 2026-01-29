@@ -2,9 +2,14 @@ import joblib
 import pytest
 from sklearn.metrics import recall_score
 
-from spam_classifier.config.core import (Config, DataConfig, ModelConfig,
-                                         ModelParams, TrainingConfig,
-                                         read_package_version)
+from spam_classifier.config.core import (
+    Config,
+    DataConfig,
+    ModelConfig,
+    ModelParams,
+    TrainingConfig,
+    read_package_version,
+)
 from spam_classifier.config.paths import PROCESSED_DATA_PATH, TRAINED_MODEL_DIR
 from spam_classifier.pipeline import define_pipeline
 

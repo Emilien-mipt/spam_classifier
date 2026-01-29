@@ -18,12 +18,11 @@ def preprocess_series(texts):
 
 # Создание пайплайна
 def define_pipeline(config: Config):
-    model = Pipeline([
-        ("preprocess", FunctionTransformer(preprocess_series, validate=False)),
-        ('tfidf', TfidfVectorizer()),
-        ('clf', LogisticRegression(
-            C=config.model.params.C,
-            max_iter=config.model.params.max_iter
-        ))
-    ])
+    model = Pipeline(
+        [
+            ("preprocess", FunctionTransformer(preprocess_series, validate=False)),
+            ("tfidf", TfidfVectorizer()),
+            ("clf", LogisticRegression(C=config.model.params.C, max_iter=config.model.params.max_iter)),
+        ]
+    )
     return model

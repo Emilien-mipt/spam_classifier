@@ -1,8 +1,7 @@
 import logging
 from typing import Dict, Iterable
 
-from sklearn.metrics import (accuracy_score, f1_score, precision_score,
-                             recall_score, roc_auc_score)
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, roc_auc_score
 
 from spam_classifier.config.paths import LOG_DIR
 
@@ -13,9 +12,7 @@ def setup_logger(log_to_file: bool, version: str) -> logging.Logger:
         return logger
 
     logger.setLevel(logging.INFO)
-    formatter = logging.Formatter(
-        "%(asctime)s | %(levelname)s | %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(formatter)

@@ -1,6 +1,7 @@
 import re
 import string
 
+
 def preprocess_text(text):
     if not isinstance(text, str):
         return ""
