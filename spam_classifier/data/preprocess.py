@@ -1,7 +1,9 @@
 import re
 import string
+from typing import Any
 
-def preprocess_text(text):
+
+def preprocess_text(text: Any) -> str:
     if not isinstance(text, str):
         return ""
 

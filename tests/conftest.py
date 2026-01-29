@@ -1,6 +1,5 @@
 import sys
 from pathlib import Path
-
 import pandas as pd
 import pytest
 
@@ -10,7 +9,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 
 @pytest.fixture()
-def test_dataset():
+def test_dataset() -> pd.DataFrame:
     texts = [
         "free prize winner claim now",
         "urgent win cash now",
@@ -74,24 +73,72 @@ def test_dataset():
         "see you tomorrow morning",
     ]
     labels = [
-        1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
     ]
     return pd.DataFrame({"text": texts, "label": labels})
 
 
 @pytest.fixture()
-def raw_dataset(test_dataset):
+def raw_dataset(test_dataset: pd.DataFrame) -> pd.DataFrame:
     label_map = {0: "ham", 1: "spam"}
     return pd.DataFrame(
         {

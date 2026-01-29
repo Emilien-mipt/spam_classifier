@@ -1,7 +1,10 @@
 """CLI prediction tests for single and batch inference."""
 
+from pathlib import Path
+
 import joblib
 import pandas as pd
+import pytest
 
 import spam_classifier.config.core as core_mod
 import spam_classifier.predict as predict_mod
@@ -10,7 +13,7 @@ from spam_classifier.pipeline import define_pipeline
 from spam_classifier.predict import main
 
 
-def build_and_save_model(model_path):
+def build_and_save_model(model_path: Path) -> None:
     config = Config(
         data=DataConfig(test_size=0.1, random_state=42),
         model=ModelConfig(
@@ -21,7 +24,6 @@ def build_and_save_model(model_path):
         ),
         training=TrainingConfig(
             save_model=False,
-            test_mode=False,
             run_validation=False,
             use_holdout=False,
             metrics=["accuracy"],
@@ -36,7 +38,11 @@ def build_and_save_model(model_path):
     joblib.dump(model, model_path)
 
 
-def test_predict_single_message(tmp_path, monkeypatch, capsys):
+def test_predict_single_message(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     """Predict on a single message passed via CLI."""
     model_dir = tmp_path / "models"
     model_dir.mkdir()
@@ -57,7 +63,11 @@ def test_predict_single_message(tmp_path, monkeypatch, capsys):
     assert "score" in out
 
 
-def test_predict_batch_file_output(tmp_path, monkeypatch, capsys):
+def test_predict_batch_file_output(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
     """Predict on a file and write CSV output without message column."""
     model_dir = tmp_path / "models"
     model_dir.mkdir()

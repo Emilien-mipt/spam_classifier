@@ -4,7 +4,7 @@ from spam_classifier.config.core import Config, DataConfig, ModelConfig, ModelPa
 from spam_classifier.pipeline import define_pipeline
 
 
-def test_define_pipeline_steps():
+def test_define_pipeline_steps() -> None:
     """Ensure pipeline contains preprocess, tfidf, and classifier steps."""
     config = Config(
         data=DataConfig(test_size=0.1, random_state=42),
@@ -16,7 +16,6 @@ def test_define_pipeline_steps():
         ),
         training=TrainingConfig(
             save_model=False,
-            test_mode=False,
             run_validation=False,
             use_holdout=True,
             metrics=["accuracy"],

@@ -1,3 +1,5 @@
+from typing import Iterable
+
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -8,7 +10,7 @@ from spam_classifier.config.core import Config
 from spam_classifier.data.preprocess import preprocess_text
 
 
-def preprocess_series(texts):
+def preprocess_series(texts: Iterable[str] | pd.Series | str) -> pd.Series:
     if isinstance(texts, pd.Series):
         return texts.apply(preprocess_text)
     if isinstance(texts, str):
@@ -18,12 +20,11 @@ def preprocess_series(texts):
 
 # Создание пайплайна
 def define_pipeline(config: Config):
-    model = Pipeline([
-        ("preprocess", FunctionTransformer(preprocess_series, validate=False)),
-        ('tfidf', TfidfVectorizer()),
-        ('clf', LogisticRegression(
-            C=config.model.params.C,
-            max_iter=config.model.params.max_iter
-        ))
-    ])
+    model = Pipeline(
+        [
+            ("preprocess", FunctionTransformer(preprocess_series, validate=False)),
+            ("tfidf", TfidfVectorizer()),
+            ("clf", LogisticRegression(C=config.model.params.C, max_iter=config.model.params.max_iter)),
+        ]
+    )
     return model
