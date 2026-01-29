@@ -13,7 +13,7 @@ model:
 training:
   save_model: True
   run_validation: True
-  use_holdout: True
+  use_holdout: False
   metrics:
     - recall
     - roc_auc

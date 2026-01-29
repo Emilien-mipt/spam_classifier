@@ -1,3 +1,29 @@
+Metadata-Version: 2.4
+Name: spam-classifier
+Version: 0.1.0
+Summary: Spam/ham classifier with an MLOps-style training pipeline.
+Author-email: Emin Tagiev <emin.tagiev@phystech.edu>
+License: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic==2.12.5
+Requires-Dist: scikit-learn==1.8.0
+Requires-Dist: pandas==3.0.0
+Requires-Dist: nltk==3.9.2
+Requires-Dist: pyyaml==6.0.3
+Requires-Dist: joblib==1.5.3
+Provides-Extra: dev
+Requires-Dist: pytest==9.0.2; extra == "dev"
+Requires-Dist: pytest-cov==7.0.0; extra == "dev"
+Requires-Dist: black==26.1.0; extra == "dev"
+Requires-Dist: mypy==1.19.1; extra == "dev"
+Requires-Dist: flake8==7.3.0; extra == "dev"
+Requires-Dist: isort==7.0.0; extra == "dev"
+Requires-Dist: pre-commit==4.5.1; extra == "dev"
+Requires-Dist: types-PyYAML==6.0.12.20250915; extra == "dev"
+Dynamic: license-file
+
 # Spam classifier
 
 This project demonstrates how to package and train a simple spam/ham classifier with MLOps practices. It is designed for students learning how to structure ML code into modules, build training pipelines, configure via YAML, and add tests and CI.
@@ -60,13 +86,13 @@ Package version is stored in `spam_classifier/_VERSION`. Model and log filenames
 Single message:
 
 ```bash
-uv run python -m spam_classifier.predict "Free prize! Call now"
+python -m spam_classifier.predict "Free prize! Call now"
 ```
 
 Batch inference from file (one message per line):
 
 ```bash
-uv run python -m spam_classifier.predict data/processed/test.csv -o results/preds.csv
+python -m spam_classifier.predict data/processed/test.csv -o results/preds.csv
 ```
 
 Options:
@@ -74,23 +100,19 @@ Options:
 - `-o/--output` — output CSV path (default: project root)
 - `--no-message` — exclude message text from output CSV
 
-If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
-
 ## Tests
 
 Run full test suite:
 
 ```bash
-uv run pytest tests
+pytest tests
 ```
 
 Quality tests (require trained model and holdout data):
 
 ```bash
-uv run pytest -m quality
+pytest -m quality
 ```
-
-If you have activated the virtual environment, you can omit `uv run` for pytest as well.
 
 ## CI
 

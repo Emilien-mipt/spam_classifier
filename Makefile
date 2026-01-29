@@ -1,7 +1,7 @@
 UNAME_S := $(shell uname -s)
 
 install:
-	pip install -r requirements.txt
+	uv pip install -e ".[dev]"
 
 download_data:
 	mkdir -p data/raw
@@ -15,10 +15,10 @@ endif
 	rm data/raw/spam.zip
 
 process_data:
-	python -m spam_classifier.data.make_dataset config.yaml
+	uv run python -m spam_classifier.data.make_dataset config.yaml
 
 train:
-	python -m spam_classifier.train_model config.yaml
+	uv run python -m spam_classifier.train_model config.yaml
 
 quality:
 	pytest -m quality
