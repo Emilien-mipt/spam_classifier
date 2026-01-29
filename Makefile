@@ -21,4 +21,4 @@ train:
 	uv run python -m spam_classifier.train_model config.yaml
 
 quality:
-	pytest -m quality
+	uv run pytest -m quality
