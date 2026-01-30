@@ -86,13 +86,13 @@ Package version is stored in `spam_classifier/_VERSION`. Model and log filenames
 Single message:
 
 ```bash
-python -m spam_classifier.predict "Free prize! Call now"
+uv run python -m spam_classifier.predict "Free prize! Call now"
 ```
 
 Batch inference from file (one message per line):
 
 ```bash
-python -m spam_classifier.predict data/processed/test.csv -o results/preds.csv
+uv run python -m spam_classifier.predict data/processed/test.csv -o results/preds.csv
 ```
 
 Options:
@@ -100,19 +100,23 @@ Options:
 - `-o/--output` — output CSV path (default: project root)
 - `--no-message` — exclude message text from output CSV
 
+If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
+
 ## Tests
 
 Run full test suite:
 
 ```bash
-pytest tests
+uv run pytest tests
 ```
 
 Quality tests (require trained model and holdout data):
 
 ```bash
-pytest -m quality
+uv run pytest -m quality
 ```
+
+If you have activated the virtual environment, you can omit `uv run` for pytest as well.
 
 ## CI
 

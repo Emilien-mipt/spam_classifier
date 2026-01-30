@@ -73,6 +73,12 @@ Options:
 
 - `-o/--output` — output CSV path (default: project root)
 - `--no-message` — exclude message text from output CSV
+- `--model-path` — path to a trained `.pkl` model (overrides default)
+
+If you installed the package from PyPI, you must train a model or pass `--model-path`
+because no weights are bundled with the package by default.
+
+If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
 
 If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
 

@@ -26,11 +26,14 @@ class PredictionOutput(BaseModel):
     score: Optional[float] = None
 
 
-def load_model() -> Any:
-    version = read_package_version()
-    model_path = TRAINED_MODEL_DIR / f"spam_classifier_v{version}.pkl"
+def load_model(model_path: Optional[Path] = None) -> Any:
+    if model_path is None:
+        version = read_package_version()
+        model_path = TRAINED_MODEL_DIR / f"spam_classifier_v{version}.pkl"
     if not model_path.is_file():
-        raise FileNotFoundError(f"Trained model not found at {model_path!s}. Train the model first.")
+        raise FileNotFoundError(
+            f"Trained model not found at {model_path!s}. Train the model first or pass --model-path."
+        )
     return joblib.load(model_path)
 
 
@@ -62,13 +65,18 @@ def main() -> int:
         help="Output file path for batch predictions (CSV). Defaults to project root.",
     )
     parser.add_argument(
+        "--model-path",
+        help="Path to a trained model .pkl file. Defaults to versioned model in package.",
+    )
+    parser.add_argument(
         "--no-message",
         action="store_true",
         help="Do not include the message text in the output CSV.",
     )
     args = parser.parse_args()
 
-    model = load_model()
+    model_path = Path(args.model_path) if args.model_path else None
+    model = load_model(model_path)
     arg = args.input
     path = Path(arg)
     try:
