@@ -1,7 +1,7 @@
 import argparse
 import csv
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any, Iterable, Optional, Union
 
 import joblib
 from pydantic import BaseModel, Field, ValidationError, field_validator
@@ -26,10 +26,12 @@ class PredictionOutput(BaseModel):
     score: Optional[float] = None
 
 
-def load_model(model_path: Optional[Path] = None) -> Any:
+def load_model(model_path: Optional[Union[str, Path]] = None) -> Any:
     if model_path is None:
         version = read_package_version()
         model_path = TRAINED_MODEL_DIR / f"spam_classifier_v{version}.pkl"
+    else:
+        model_path = Path(model_path)
     if not model_path.is_file():
         raise FileNotFoundError(
             f"Trained model not found at {model_path!s}. Train the model first or pass --model-path."

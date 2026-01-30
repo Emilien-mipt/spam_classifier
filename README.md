@@ -57,6 +57,14 @@ Package version is stored in `spam_classifier/_VERSION`. Model and log filenames
 
 ## Inference
 
+### Install from PyPI
+
+```bash
+uv pip install spam-classifier
+```
+
+### CLI usage
+
 Single message:
 
 ```bash
@@ -76,9 +84,17 @@ Options:
 - `--model-path` — path to a trained `.pkl` model (overrides default)
 
 If you installed the package from PyPI, you must train a model or pass `--model-path`
-because no weights are bundled with the package by default.
+because no weights are bundled with the package by default. Pretrained weights are
+attached to the GitHub Release assets for each version.
 
-If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
+### Python usage
+
+```python
+from spam_classifier.predict import load_model, predict_message
+
+model = load_model("/path/to/model.pkl")
+print(predict_message("Free prize! Call now", model))
+```
 
 If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
 
