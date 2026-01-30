@@ -75,9 +75,11 @@ def train_model(config_path: Union[str, Path]) -> object:
         else:
             logger.warning("Holdout evaluation skipped: test.csv not found at %s", test_path)
 
-    # Сохранение модели
+    # Очистка старых артефактов и сохранение модели
     if config.training.save_model:
         TRAINED_MODEL_DIR.mkdir(parents=True, exist_ok=True)
+        for existing in TRAINED_MODEL_DIR.glob("spam_classifier_v*.pkl"):
+            existing.unlink()
         path_to_model = TRAINED_MODEL_DIR.joinpath(f"spam_classifier_v{version}.pkl")
         joblib.dump(model, path_to_model)
         logger.info("Model saved to %s", path_to_model)

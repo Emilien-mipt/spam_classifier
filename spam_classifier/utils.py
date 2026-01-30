@@ -21,6 +21,8 @@ def setup_logger(log_to_file: bool, version: str) -> logging.Logger:
 
     if log_to_file:
         LOG_DIR.mkdir(parents=True, exist_ok=True)
+        for existing in LOG_DIR.glob("logs_*.log"):
+            existing.unlink()
         log_name = f"logs_{version}.log"
         file_handler = logging.FileHandler(LOG_DIR / log_name, mode="w")
         file_handler.setFormatter(formatter)
