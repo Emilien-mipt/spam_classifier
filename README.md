@@ -80,6 +80,8 @@ because no weights are bundled with the package by default.
 
 If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
 
+If you have activated the virtual environment, you can omit `uv run` and call `python` directly.
+
 ## Tests
 
 Run full test suite:
